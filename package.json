@@ -4,7 +4,7 @@
   "private": false,
   "license": "MIT",
   "engines": {
-    "node": "14.16.1"
+    "node": "14.16.0"
   },
   "repository": "github:Lambda-School-Labs/labs-api-starter",
   "scripts": {

@@ -1,4 +1,3 @@
-const faker = require('faker');
 const db = require('../../data/db-config');
 
 /**
@@ -21,7 +20,7 @@ const db = require('../../data/db-config');
         const preExistingUserDrawing = await db('Drawing').where({ SubmissionID: ID });
         if(hasDrawn){
           if(preExistingUserDrawing.length < 1){
-            await trx('Drawing').insert({  URL: faker.image.imageUrl(), SubmissionID: ID  });
+            await trx('Drawing').insert({  URL: "https://placekitten.com/200/300", SubmissionID: ID  });
           }
         } else {
           if(preExistingUserDrawing.length > 0){
@@ -32,7 +31,7 @@ const db = require('../../data/db-config');
         const preExistingUserWriting = await db('Writing').where({ SubmissionID: ID });
         if(hasWritten){
           if(preExistingUserWriting.length < 1){
-            await trx('Writing').insert({ URL:faker.image.imageUrl(), PageNum: 1, SubmissionID: ID });
+            await trx('Writing').insert({ URL: "https://placekitten.com/200/300", PageNum: 1, SubmissionID: ID });
           }
         } else {
           if(preExistingUserWriting.length > 0) {

@@ -7,8 +7,8 @@ const helmet = require('helmet');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
 const jsdocConfig = require('../config/jsdoc');
-const dotenv = require('dotenv');
-const config_result = dotenv.config();
+// const dotenv = require('dotenv');
+// const config_result = dotenv.config();
 const scheduler = require('./cronTasks/scheduler');
 
 if (process.env.NODE_ENV != 'production' && config_result.error) {

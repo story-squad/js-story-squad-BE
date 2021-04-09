@@ -1,0 +1,17 @@
+branch-defaults:
+  main:
+    environment: story-squad-api-env
+    group_suffix: null
+global:
+  application_name: story-squad-api
+  branch: null
+  default_ec2_keyname: tricktionary-keypair
+  default_platform: Node.js 14 running on 64bit Amazon Linux 2
+  default_region: us-east-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  repository: null
+  sc: git
+  workspace_type: Application

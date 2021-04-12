@@ -79,8 +79,6 @@ const generateFaceoffs = () => {
   });
 };
 
-
-
 const generateVSequence = () =>{
   return db.transaction(async (trx) =>{
     try {
@@ -125,6 +123,34 @@ const calculateResultsForTheWeek = () => {
   });
 };
 
+/**
+ * A database transaction that resets the read, write, and draw booleans
+ * on the first occurence of the selected user's Submission (usually user id 1)
+ * and deletes the corresponding Writing and Drawing.
+ * For development and user testing only
+ */
+const resetTestUserSubs = (childId) => {
+  return db.transaction(async (trx) => {
+    try {
+      // Reset submission booleans
+      await trx('Submissions')
+        .where({ID: childId})
+        .first()
+        .update({'HasRead': false, 'HasWritten': false, 'HasDrawn': false});
+      // Get the submission info
+      const submission = await trx('Submissions')
+        .where({ID: childId})
+        .first();
+      // Delete Writing and Drawing for this submission
+      await trx('Writing').where({SubmissionID: submission.ID}).del()
+      await trx('Drawing').where({SubmissionID: submission.ID}).del()
+    } catch (err) {
+      console.log({ err: err.message });
+      throw new Error(err.message);
+    }
+  });
+}
+
 module.exports = {
   clusterGeneration,
   getCohorts,
@@ -134,4 +160,5 @@ module.exports = {
   generateFaceoffs,
   calculateResultsForTheWeek,
   generateVSequence,
+  resetTestUserSubs,
 };

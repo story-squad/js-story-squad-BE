@@ -257,4 +257,10 @@ router.put('/submissions/:id', (req, res) => {
   crudOperationsManager.update(res, Mod.moderatePost, 'Submission', id, changes);
 });
 
+// TODO swagger doc
+router.put('/reset/submission/:childId', (req, res) => {
+  const { childId } = req.params;
+  crudOperationsManager.update(res, Mod.resetTestUserSubs, 'Submission', childId);
+});
+
 module.exports = router;

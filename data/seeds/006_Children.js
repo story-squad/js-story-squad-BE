@@ -3,7 +3,7 @@ const bc = require('bcryptjs');
 
 // so much to check in db....
 const children1 = [...new Array(8)].map((i, idx) => ({
-  Name: `${faker.name.firstName()} (Cohort1)`,
+  Name: `${faker.name.firstName()}${idx === 0 ? ' (TEST USER)' : ''} (Cohort1)`,
   PIN: `${bc.hashSync(`0000`, process.env.BCRYPT_ROUNDS || 6)}`,
   // ParentID: `${Math.floor((idx + 4) / 4)}`,
   ParentID: `${(idx % 4) + 1}`, // 1, 2, 3,

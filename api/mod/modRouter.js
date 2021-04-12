@@ -263,4 +263,10 @@ router.put('/reset/submission/:childId', (req, res) => {
   crudOperationsManager.update(res, Mod.resetTestUserSubs, 'Submission', childId);
 });
 
+// TODO swagger doc
+router.put('/generate/submission/:childId', (req, res) => {
+  const { childId } = req.params;
+  crudOperationsManager.update(res, Mod.generateTestUserSubs, 'Submission', childId);
+});
+
 module.exports = router;

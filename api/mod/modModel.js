@@ -4,6 +4,7 @@ const faceoff = require('./faceoffGeneration');
 const { result, clusterGeneration } = require('./modHelpers');
 const ballot = require('./BallotGeneration');
 const Children = require('../child/childModel');
+const { testUserSubmissions } = require('../../data/modData');
 
 /**
  * Queries the database for a list of all current cohorts
@@ -151,6 +152,36 @@ const resetTestUserSubs = (childId) => {
   });
 }
 
+/**
+ * A database transaction that sets the read, write, and draw booleans
+ * true on first occurence of the selected user's Submission (usually user id 1)
+ * and adds the corresponding Writing and Drawing.
+ * For development and user testing only
+ */
+const generateTestUserSubs = (childId) => {
+  return db.transaction(async (trx) => {
+    try {
+      // Reset submission booleans
+      await trx('Submissions')
+        .where({ID: childId})
+        .first()
+        .update({'HasRead': true, 'HasWritten': true, 'HasDrawn': true});
+      // Get the submission info
+      const submission = await trx('Submissions')
+        .where({ID: childId})
+        .first();
+      // Add Writing and Drawing for this submission
+      for (let w in testUserSubmissions(submission.ID).writing) {
+        await trx('Writing').insert(testUserSubmissions(submission.ID).writing[w]);
+      }
+      await trx('Drawing').insert(testUserSubmissions(submission.ID).drawing);
+    } catch (err) {
+      console.log({ err: err.message });
+      throw new Error(err.message);
+    }
+  });
+}
+
 module.exports = {
   clusterGeneration,
   getCohorts,
@@ -161,4 +192,5 @@ module.exports = {
   calculateResultsForTheWeek,
   generateVSequence,
   resetTestUserSubs,
+  generateTestUserSubs,
 };

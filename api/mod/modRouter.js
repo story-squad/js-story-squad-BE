@@ -257,34 +257,4 @@ router.put('/submissions/:id', (req, res) => {
   crudOperationsManager.update(res, Mod.moderatePost, 'Submission', id, changes);
 });
 
-// TODO swagger doc
-router.put('/reset/submission/:childId', (req, res) => {
-  const { childId } = req.params;
-  crudOperationsManager.update(res, Mod.resetTestUserSubs, 'Submission', childId);
-});
-
-// TODO swagger doc
-router.put('/generate/submission/:childId', (req, res) => {
-  const { childId } = req.params;
-  crudOperationsManager.update(res, Mod.generateTestUserSubs, 'Submission', childId);
-});
-
-// TODO swagger doc
-router.put('/generate/points/:childId', (req, res) => {
-  const { childId } = req.params;
-  crudOperationsManager.update(res, Mod.generateTestUserPoints, 'Points', childId);
-});
-
-// TODO swagger doc
-router.get('/get-info/:childId', (req, res) => {
-  const { childId } = req.params;
-  crudOperationsManager.getAll(res, Mod.getTableInfo, 'Table Info', childId);
-});
-
-// TODO swagger doc
-router.delete('/reset/points/:childId', (req, res) => {
-  const { childId } = req.params;
-  crudOperationsManager.getAll(res, Mod.removeTestUserPoints, 'Points', childId);
-});
-
 module.exports = router;

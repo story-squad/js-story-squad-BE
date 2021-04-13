@@ -4,7 +4,6 @@ const faceoff = require('./faceoffGeneration');
 const { result, clusterGeneration } = require('./modHelpers');
 const ballot = require('./BallotGeneration');
 const Children = require('../child/childModel');
-const { testUserSubmissions, testUserPoints } = require('../../data/modData');
 
 /**
  * Queries the database for a list of all current cohorts
@@ -80,6 +79,8 @@ const generateFaceoffs = () => {
   });
 };
 
+
+
 const generateVSequence = () =>{
   return db.transaction(async (trx) =>{
     try {
@@ -124,139 +125,6 @@ const calculateResultsForTheWeek = () => {
   });
 };
 
-/**
- * A database transaction that resets the read, write, and draw booleans
- * on the first occurence of the selected user's Submission (usually user id 1)
- * and deletes the corresponding Writing and Drawing.
- * For development and user testing only
- */
-const resetTestUserSubs = (childId) => {
-  return db.transaction(async (trx) => {
-    try {
-      // Reset submission booleans
-      await trx('Submissions')
-        .where({ID: childId})
-        .first()
-        .update({'HasRead': false, 'HasWritten': false, 'HasDrawn': false});
-      // Get the submission info
-      const submission = await trx('Submissions')
-        .where({ID: childId})
-        .first();
-      // Delete Writing and Drawing for this submission
-      await trx('Writing').where({SubmissionID: submission.ID}).del()
-      await trx('Drawing').where({SubmissionID: submission.ID}).del()
-    } catch (err) {
-      console.log({ err: err.message });
-      throw new Error(err.message);
-    }
-  });
-}
-
-/**
- * A database transaction that sets the read, write, and draw booleans
- * true on first occurence of the selected user's Submission (usually user id 1)
- * and adds the corresponding Writing and Drawing.
- * For development and user testing only
- */
-const generateTestUserSubs = (childId) => {
-  return db.transaction(async (trx) => {
-    try {
-      // Reset submission booleans
-      await trx('Submissions')
-        .where({ID: childId})
-        .first()
-        .update({'HasRead': true, 'HasWritten': true, 'HasDrawn': true});
-      // Get the submission info
-      const submission = await trx('Submissions')
-        .where({ID: childId})
-        .first();
-      // Add Writing and Drawing for this submission
-      for (let w in testUserSubmissions(submission.ID).writing) {
-        await trx('Writing').insert(testUserSubmissions(submission.ID).writing[w]);
-      }
-      await trx('Drawing').insert(testUserSubmissions(submission.ID).drawing);
-    } catch (err) {
-      console.log({ err: err.message });
-      throw new Error(err.message);
-    }
-  });
-}
-
-/**
- * A database transaction that gets information about number of rows
- * and various stats in the DB for user testing purposes
- */
-const getTableInfo = (childId) => {
-  return db.transaction(async (trx) => {
-    try {
-      const submission = await trx('Submissions')
-        .where({ID: childId})
-        .first();
-      const numSubmissions = await trx('Submissions').count();
-      const numWritings = await trx('Writing').count();
-      const numDrawings = await trx('Drawing').count();
-      const numFaceoffs = await trx('Faceoffs').count();
-      const numSquads = await trx('Squads').count();
-      const numTeams = await trx('Teams').count();
-      const numVotes = await trx('Votes').count();
-      const numPoints = await trx('Points')
-        .where({MemberID: childId})
-        .count();
-
-      return {
-        hasRead: submission.HasRead,
-        hasDrawn: submission.HasDrawn,
-        hasWritten: submission.HasWritten,
-        numSubmissions: Number(numSubmissions[0].count),
-        numWritings: Number(numWritings[0].count),
-        numDrawings: Number(numDrawings[0].count),
-        numFaceoffs: Number(numFaceoffs[0].count),
-        numSquads: Number(numSquads[0].count),
-        numTeams: Number(numTeams[0].count),
-        numVotes: Number(numVotes[0].count),
-        numPoints: Number(numPoints[0].count),
-      }
-    } catch (err) {
-      console.log({ err: err.message });
-      throw new Error(err.message);
-    }
-  });
-}
-
-/**
- * A database transaction that removes test user Points submissions
- * for development and user testing
- */
-const removeTestUserPoints = (childId) => {
-  return db.transaction(async (trx) => {
-    try {
-      await trx('Points')
-      .where({MemberID: childId})
-      .del();
-    } catch (err) {
-      console.log({ err: err.message });
-      throw new Error(err.message);
-    }
-  });
-}
-
-/**
- * A database transaction that adds test user Points submissions
- * for development and user testing
- */
-const generateTestUserPoints = (childId) => {
-  return db.transaction(async (trx) => {
-    try {
-      for (let p in testUserPoints) {
-        await trx('Points').insert(testUserPoints[p])
-      }
-    } catch (err) {
-      console.log({ err: err.message });
-      throw new Error(err.message);
-    }
-  });
-}
-
 module.exports = {
   clusterGeneration,
   getCohorts,
@@ -266,9 +134,4 @@ module.exports = {
   generateFaceoffs,
   calculateResultsForTheWeek,
   generateVSequence,
-  resetTestUserSubs,
-  generateTestUserSubs,
-  getTableInfo,
-  removeTestUserPoints,
-  generateTestUserPoints
 };

@@ -192,13 +192,17 @@ const getTableInfo = (childId) => {
       const submission = await trx('Submissions')
         .where({ID: childId})
         .first();
-      const numSubmissions = await trx('Submissions').count()
-      const numWritings = await trx('Writing').count()
-      const numDrawings = await trx('Drawing').count()
-      const numFaceoffs = await trx('Faceoffs').count()
-      const numSquads = await trx('Squads').count()
-      const numTeams = await trx('Teams').count()
-      const numVotes = await trx('Votes').count()
+      const numSubmissions = await trx('Submissions').count();
+      const numWritings = await trx('Writing').count();
+      const numDrawings = await trx('Drawing').count();
+      const numFaceoffs = await trx('Faceoffs').count();
+      const numSquads = await trx('Squads').count();
+      const numTeams = await trx('Teams').count();
+      const numVotes = await trx('Votes').count();
+      const numPoints = await trx('Points')
+        .where({MemberID: childId})
+        .count();
+
       return {
         hasRead: submission.HasRead,
         hasDrawn: submission.HasDrawn,
@@ -209,7 +213,8 @@ const getTableInfo = (childId) => {
         numFaceoffs: Number(numFaceoffs[0].count),
         numSquads: Number(numSquads[0].count),
         numTeams: Number(numTeams[0].count),
-        numVotes: Number(numVotes[0].count)
+        numVotes: Number(numVotes[0].count),
+        numPoints: Number(numPoints[0].count),
       }
     } catch (err) {
       console.log({ err: err.message });

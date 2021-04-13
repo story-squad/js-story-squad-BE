@@ -270,6 +270,12 @@ router.put('/generate/submission/:childId', (req, res) => {
 });
 
 // TODO swagger doc
+router.put('/generate/points/:childId', (req, res) => {
+  const { childId } = req.params;
+  crudOperationsManager.update(res, Mod.generateTestUserPoints, 'Points', childId);
+});
+
+// TODO swagger doc
 router.get('/get-info/:childId', (req, res) => {
   const { childId } = req.params;
   crudOperationsManager.getAll(res, Mod.getTableInfo, 'Table Info', childId);

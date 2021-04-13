@@ -4,7 +4,7 @@ const faceoff = require('./faceoffGeneration');
 const { result, clusterGeneration } = require('./modHelpers');
 const ballot = require('./BallotGeneration');
 const Children = require('../child/childModel');
-const { testUserSubmissions } = require('../../data/modData');
+const { testUserSubmissions, testUserPoints } = require('../../data/modData');
 
 /**
  * Queries the database for a list of all current cohorts
@@ -240,6 +240,23 @@ const removeTestUserPoints = (childId) => {
   });
 }
 
+/**
+ * A database transaction that adds test user Points submissions
+ * for development and user testing
+ */
+const generateTestUserPoints = (childId) => {
+  return db.transaction(async (trx) => {
+    try {
+      for (let p in testUserPoints) {
+        await trx('Points').insert(testUserPoints[p])
+      }
+    } catch (err) {
+      console.log({ err: err.message });
+      throw new Error(err.message);
+    }
+  });
+}
+
 module.exports = {
   clusterGeneration,
   getCohorts,
@@ -252,5 +269,6 @@ module.exports = {
   resetTestUserSubs,
   generateTestUserSubs,
   getTableInfo,
-  removeTestUserPoints
+  removeTestUserPoints,
+  generateTestUserPoints
 };

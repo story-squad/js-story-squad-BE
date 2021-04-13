@@ -275,4 +275,10 @@ router.get('/get-info/:childId', (req, res) => {
   crudOperationsManager.getAll(res, Mod.getTableInfo, 'Table Info', childId);
 });
 
+// TODO swagger doc
+router.delete('/reset/points/:childId', (req, res) => {
+  const { childId } = req.params;
+  crudOperationsManager.getAll(res, Mod.removeTestUserPoints, 'Points', childId);
+});
+
 module.exports = router;

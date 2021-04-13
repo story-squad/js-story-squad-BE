@@ -223,6 +223,23 @@ const getTableInfo = (childId) => {
   });
 }
 
+/**
+ * A database transaction that removes test user Points submissions
+ * for development and user testing
+ */
+const removeTestUserPoints = (childId) => {
+  return db.transaction(async (trx) => {
+    try {
+      await trx('Points')
+      .where({MemberID: childId})
+      .del();
+    } catch (err) {
+      console.log({ err: err.message });
+      throw new Error(err.message);
+    }
+  });
+}
+
 module.exports = {
   clusterGeneration,
   getCohorts,
@@ -234,5 +251,6 @@ module.exports = {
   generateVSequence,
   resetTestUserSubs,
   generateTestUserSubs,
-  getTableInfo
+  getTableInfo,
+  removeTestUserPoints
 };

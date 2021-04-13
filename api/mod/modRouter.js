@@ -269,4 +269,10 @@ router.put('/generate/submission/:childId', (req, res) => {
   crudOperationsManager.update(res, Mod.generateTestUserSubs, 'Submission', childId);
 });
 
+// TODO swagger doc
+router.get('/get-info/:childId', (req, res) => {
+  const { childId } = req.params;
+  crudOperationsManager.getAll(res, Mod.getTableInfo, 'Table Info', childId);
+});
+
 module.exports = router;

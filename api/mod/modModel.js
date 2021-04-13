@@ -182,6 +182,42 @@ const generateTestUserSubs = (childId) => {
   });
 }
 
+/**
+ * A database transaction that gets information about number of rows
+ * and various stats in the DB for user testing purposes
+ */
+const getTableInfo = (childId) => {
+  return db.transaction(async (trx) => {
+    try {
+      const submission = await trx('Submissions')
+        .where({ID: childId})
+        .first();
+      const numSubmissions = await trx('Submissions').count()
+      const numWritings = await trx('Writing').count()
+      const numDrawings = await trx('Drawing').count()
+      const numFaceoffs = await trx('Faceoffs').count()
+      const numSquads = await trx('Squads').count()
+      const numTeams = await trx('Teams').count()
+      const numVotes = await trx('Votes').count()
+      return {
+        hasRead: submission.HasRead,
+        hasDrawn: submission.HasDrawn,
+        hasWritten: submission.HasWritten,
+        numSubmissions: Number(numSubmissions[0].count),
+        numWritings: Number(numWritings[0].count),
+        numDrawings: Number(numDrawings[0].count),
+        numFaceoffs: Number(numFaceoffs[0].count),
+        numSquads: Number(numSquads[0].count),
+        numTeams: Number(numTeams[0].count),
+        numVotes: Number(numVotes[0].count)
+      }
+    } catch (err) {
+      console.log({ err: err.message });
+      throw new Error(err.message);
+    }
+  });
+}
+
 module.exports = {
   clusterGeneration,
   getCohorts,
@@ -193,4 +229,5 @@ module.exports = {
   generateVSequence,
   resetTestUserSubs,
   generateTestUserSubs,
+  getTableInfo
 };

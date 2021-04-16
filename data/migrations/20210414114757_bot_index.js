@@ -45,6 +45,8 @@ exports.up = function(knex) {
             .references('Stories.ID')
             .onUpdate('CASCADE')
             .onDelete('RESTRICT');
+        t.integer('Wins')
+        t.integer('HighScore')
     });
 };
 

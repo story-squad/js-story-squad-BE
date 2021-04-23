@@ -16,7 +16,7 @@ const redis_1 = __importDefault(require("redis"));
 const logger_1 = require("../../logger");
 // provides basic access to a redis.creacteClient() instance
 // see https://www.npmjs.com/package/redis
-const REDIS_HOST = process.env.REDIS_HOST || "localhost";
+const REDIS_HOST = process.env.REDIS_HOST || "";
 const REDIS_PORT = process.env.REDIS_PORT || "6379";
 const DEFAULT_TTL = process.env.DEFAULT_TTL || "60";
 const defaultOptions = {

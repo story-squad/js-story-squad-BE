@@ -79,6 +79,7 @@
     "node-cron": "^2.0.3",
     "npm": "^7.9.0",
     "pg": "^8.2.1",
+    "stripe": "^8.145.0",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4"
   },

@@ -79,7 +79,8 @@
     "node-cron": "^2.0.3",
     "npm": "^7.9.0",
     "pg": "^8.2.1",
-    "swagger-jsdoc": "^4.0.0",
+    "redis": "^3.1.2",
+    "swagger-jsdoc": "^4.3.2",
     "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {

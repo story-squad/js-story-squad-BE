@@ -3,7 +3,6 @@ const {
   formatProfiles,
   formatLineGraphBody,
   dsApi,
-  hashPin,
 } = require('../../lib');
 
 /**
@@ -42,7 +41,7 @@ const getByEmail = (Email) => {
  */
 const add = (parent) => {
   return db('Parents')
-    .insert({ ...parent, PIN: hashPin(parent.PIN) })
+    .insert(parent)
     .returning('ID');
 };
 

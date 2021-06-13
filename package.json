@@ -8,7 +8,7 @@
   },
   "repository": "github:Lambda-School-Labs/labs-api-starter",
   "scripts": {
-    "plant": "node plant.js",
+    "plant": "node gardener.js",
     "start": "node server.js",
     "watch:dev": "nodemon",
     "lint": "npx eslint .",

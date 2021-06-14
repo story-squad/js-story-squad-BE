@@ -59,7 +59,7 @@ seedFiles.forEach(function (fname) {
  * @param {string} seed
  * @returns Returns an object containing the return code and output as string.
  */
-const plant = (seed) => sh.exec(`npx knex seed:run --specific="${seed}"`)
+const plant = (seed) => sh.exec(`npx knex seed:run --specific="${seed}"`);
 const [_, __, seed, matches] = process.argv;
 const optionSwitches = ["all", "search", "--help"];
 const availableOptions = Object.keys(changes) + optionSwitches + Object.keys(changes).map((s) => s + '.js'); // concatenate 3 lists

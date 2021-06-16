@@ -102,8 +102,14 @@ function cli(virtualSeed) {
             Object.keys(changes).map((option) => sh.echo(`   ${option} -> ${changes[option]}.js`));
             break;
         // TODO: create cases to seed the database for each stage of the game.
+        case "zeroday":
+            sh.echo('factory-reset the database');
+            sh.exec('npx knex migrate:rollback');
+            sh.exec('npx knex migrate:latest');
+            break;
         default:
             dataFarm({ option: virtualSeed });
+            break;
     }
     return true;
 }

@@ -3,19 +3,19 @@
 const cohorts = [
   {
     ID: 1,
-    StoryID: 5,
+    StoryID: 1,
   },
   {
     ID: 2,
-    StoryID: 4,
-  },
-  {
-    ID: 3,
     StoryID: 2,
   },
   {
+    ID: 3,
+    StoryID: 3,
+  },
+  {
     ID: 4,
-    StoryID: 1,
+    StoryID: 4,
   },
 
 ]

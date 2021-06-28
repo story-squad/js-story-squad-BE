@@ -7,9 +7,8 @@ const helmet = require('helmet');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
 const jsdocConfig = require('../config/jsdoc');
-// const dotenv = require('dotenv');
-// const config_result = dotenv.config();
-const scheduler = require('./cronTasks/scheduler');
+const dotenv = require('dotenv');
+const config_result = dotenv.config();
 
 if (process.env.NODE_ENV != 'production' && config_result.error) {
   throw config_result.error;
@@ -37,6 +36,8 @@ const resetRouter = require('./reset/resetRouter');
 const leadBoard = require('./leaderboard/leadboardRouter');
 const achievements = require('./Achievements/achieveRouter');
 
+const cronRouter = require('./cronTasks/cronRouter'); // * (developer routes)
+
 const app = express();
 
 process.on('unhandledRejection', (reason, p) => {
@@ -53,9 +54,7 @@ app.use(
 app.use(helmet());
 app.use(express.json());
 app.use(
-  cors({
-    origin: '*',
-  })
+  cors()
 );
 app.use(logger('dev'));
 app.use(express.urlencoded({ extended: false }));
@@ -77,6 +76,9 @@ app.use('/game', gameRouter);
 app.use('/reset', resetRouter);
 app.use('/leaderboard', leadBoard);
 app.use('/achievements', achievements);
+
+app.use('/dev', cronRouter); // (developer Routes) maybe remove this before deploying to production
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

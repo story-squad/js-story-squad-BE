@@ -6,7 +6,7 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
   return knex.schema
-    .raw('ALTER TABLE public."Parents" ALTER COLUMN "PIN" SET NOT NULL')
+    .raw('ALTER TABLE public."Parents" ALTER COLUMN "PIN" DROP NOT NULL')
     .createTable('profiles', (t) => {
       t.string('id').notNullable().unique().primary();
       t.string('email');

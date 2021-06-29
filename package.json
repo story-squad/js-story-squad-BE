@@ -80,9 +80,10 @@
     "npm": "^7.9.0",
     "pg": "^8.2.1",
     "redis": "^3.1.2",
+    "shelljs": "^0.8.4",
+    "stripe": "^8.157.0",
     "swagger-jsdoc": "^4.3.2",
-    "swagger-ui-express": "^4.1.4",
-    "shelljs": "^0.8.4"
+    "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
     "@types/jest": "^26.0.13",

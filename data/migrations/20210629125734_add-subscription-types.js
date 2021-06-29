@@ -10,7 +10,7 @@ exports.up = async function(knex) {
     // 1 week: 0.25
     tbl.decimal('Months',4,2).notNullable();
     tbl.string('Visibility', 255).defaultTo('Visible').notNullable();
-    tbl.timestamps(false, true)
+    tbl.timestamps(false, true);
   });
 
   await knex.raw(`

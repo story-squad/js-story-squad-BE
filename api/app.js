@@ -34,6 +34,7 @@ const gameRouter = require('./game/gameRouter');
 const resetRouter = require('./reset/resetRouter');
 const leadBoard = require('./leaderboard/leadboardRouter');
 const achievements = require('./Achievements/achieveRouter');
+const dev = require('./dev/devModeRouter');
 
 const cronRouter = require('./cronTasks/cronRouter'); // * (developer routes)
 
@@ -74,6 +75,7 @@ app.use('/game', gameRouter);
 app.use('/reset', resetRouter);
 app.use('/leaderboard', leadBoard);
 app.use('/achievements', achievements);
+app.use('/dev', dev);
 
 app.use('/dev', cronRouter); // (developer Routes) maybe remove this before deploying to production
 
